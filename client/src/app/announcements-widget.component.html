@@ -1,0 +1,29 @@
+<section class="announcements" aria-labelledby="announcements-title">
+  <header class="section-header">
+    <div>
+      <p class="eyebrow">עדכוני קהילה</p>
+      <h1 id="announcements-title">הודעות לתושב</h1>
+    </div>
+    <span class="authority-mark" [attr.aria-label]="'קוד רשות ' + authorityCode()">{{ authorityCode() }}</span>
+  </header>
+
+  <ng-container *ngIf="state$ | async as state">
+    <p *ngIf="state.status === 'loading'" class="state-message" role="status">טוען הודעות...</p>
+    <p *ngIf="state.status === 'error'" class="state-message error" role="alert">לא ניתן לטעון את ההודעות כרגע.</p>
+
+    <ng-container *ngIf="state.status === 'loaded'">
+      <p *ngIf="state.data.announcements.length === 0" class="state-message" role="status">אין הודעות חדשות</p>
+      <ul *ngIf="state.data.announcements.length > 0" class="announcement-list" aria-live="polite">
+        <li *ngFor="let announcement of state.data.announcements" class="announcement" [class.urgent]="announcement.isUrgent">
+          <div class="announcement-meta">
+            <span class="category">{{ announcement.categoryName }}</span>
+            <span *ngIf="announcement.isUrgent" class="urgent-label">דחוף</span>
+            <time>{{ announcement.publishDate }}</time>
+          </div>
+          <h2>{{ announcement.title }}</h2>
+          <p>{{ announcement.summary }}</p>
+        </li>
+      </ul>
+    </ng-container>
+  </ng-container>
+</section>

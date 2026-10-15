@@ -1,0 +1,11 @@
+<main class="page-shell" dir="rtl">
+  <label class="authority-selector">
+    <span>בחירת רשות</span>
+    <select [value]="authorityCode()" (change)="selectAuthority($event)">
+      <option *ngFor="let authority of authorities" [value]="authority.code">
+        {{ authority.name }} ({{ authority.code }})
+      </option>
+    </select>
+  </label>
+  <muni-announcements-widget [authorityCode]="authorityCode()" />
+</main>

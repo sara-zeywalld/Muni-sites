@@ -1,0 +1,31 @@
+# .NET build output
+**/bin/
+**/obj/
+
+# Visual Studio and VS Code local state
+.vs/
+*.user
+*.suo
+
+# Node and Angular dependencies/build output
+**/node_modules/
+**/dist/
+**/.angular/cache/
+
+# Test and coverage output
+**/TestResults/
+**/coverage/
+*.trx
+
+# Logs and local environment files
+*.log
+.env
+.env.*
+!.env.example
+
+# Temporary/editor files
+*.tmp
+*.temp
+*.swp
+.DS_Store
+Thumbs.db

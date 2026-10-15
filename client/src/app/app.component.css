@@ -1,0 +1,4 @@
+:host { display: block; min-height: 100vh; }
+.page-shell { min-height: 100vh; padding: 3rem 1.25rem; background: #f4f0e8; color: #1e2b2b; }
+.authority-selector { display: flex; align-items: center; gap: .75rem; max-width: 52rem; margin: 0 auto 1.5rem; font-weight: 700; }
+.authority-selector select { border: 1px solid #1e2b2b; background: #fffdf8; color: #1e2b2b; padding: .55rem .75rem; font: inherit; }
