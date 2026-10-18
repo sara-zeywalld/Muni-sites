@@ -1,6 +1,7 @@
 using System.Globalization;
-using System.Net;
 using System.Text.RegularExpressions;
+using AngleSharp.Dom;
+using AngleSharp.Html.Parser;
 using MuniAnnouncements.Api.Models;
 using MuniAnnouncements.Api.Repositories;
 
@@ -50,9 +51,15 @@ public sealed class AnnouncementService(
 
     private static string ToPlainTextSummary(string html)
     {
-        string withoutTags = Regex.Replace(html, "<[^>]+>", " ");
-        string decoded = WebUtility.HtmlDecode(withoutTags) ?? string.Empty;
-        string normalizedWhitespace = Regex.Replace(decoded, "\\s+", " ").Trim();
+        HtmlParser parser = new();
+        IDocument document = parser.ParseDocument(html);
+        foreach (IElement element in document.QuerySelectorAll("script, style, template, noscript"))
+        {
+            element.Remove();
+        }
+
+        string text = document.Body?.TextContent ?? document.TextContent;
+        string normalizedWhitespace = Regex.Replace(text, "\\s+", " ").Trim();
         if (normalizedWhitespace.Length <= MaxSummaryLength)
         {
             return normalizedWhitespace;

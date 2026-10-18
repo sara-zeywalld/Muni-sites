@@ -68,6 +68,21 @@ public sealed class AnnouncementServiceTests
     }
 
     [Fact]
+    public async Task RemovesUnsafeHtmlContentAndDecodesEntities()
+    {
+        DateTimeOffset now = DateTimeOffset.UtcNow;
+        AnnouncementService service = CreateService([
+            new("a", "6500", "Title", "<p>Hello <strong>resident</strong> &amp; welcome</p><script>alert('xss')</script>", "roads", "Published", now.AddMinutes(-1), now.AddDays(1))
+        ]);
+
+        var result = await service.GetActiveAsync("6500", now, CancellationToken.None);
+
+        Assert.Equal("Hello resident & welcome", result!.Announcements[0].Summary);
+        Assert.DoesNotContain("script", result.Announcements[0].Summary, StringComparison.OrdinalIgnoreCase);
+        Assert.DoesNotContain("alert", result.Announcements[0].Summary, StringComparison.OrdinalIgnoreCase);
+    }
+
+    [Fact]
     public async Task ExcludesAnnouncementsBelongingToAnotherAuthority()
     {
         DateTimeOffset now = new(2026, 10, 15, 12, 0, 0, TimeSpan.Zero);
