@@ -29,7 +29,18 @@ public sealed class AnnouncementService(
         }
 
         IReadOnlyList<Announcement> rawAnnouncements = await cmsClient.GetAnnouncementsAsync(authorityCode, cancellationToken);
-        IReadOnlyList<NormalizedAnnouncement> normalized = rawAnnouncements
+        IReadOnlyList<NormalizedAnnouncement> normalized = NormalizeAnnouncements(rawAnnouncements, settings, authorityCode, now);
+
+        return new NormalizedAnnouncementResponse(settings.AuthorityCode, settings.AuthorityName, normalized);
+    }
+
+    private static IReadOnlyList<NormalizedAnnouncement> NormalizeAnnouncements(
+        IReadOnlyList<Announcement> announcements,
+        AuthoritySiteSettings settings,
+        string authorityCode,
+        DateTimeOffset now)
+    {
+        return announcements
             .Where(item => string.Equals(item.AuthorityCode, authorityCode, StringComparison.OrdinalIgnoreCase))
             .Where(item => string.Equals(item.Status, PublishedStatus, StringComparison.OrdinalIgnoreCase))
             .Where(item => item.PublishDate <= now && item.ExpiryDate > now)
@@ -45,8 +56,6 @@ public sealed class AnnouncementService(
                 settings.UrgentCategories.Contains(item.Category),
                 item.PublishDate.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)))
             .ToList();
-
-        return new NormalizedAnnouncementResponse(settings.AuthorityCode, settings.AuthorityName, normalized);
     }
 
     private static string ToPlainTextSummary(string html)
