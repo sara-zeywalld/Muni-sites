@@ -8,7 +8,7 @@ namespace MuniAnnouncements.Api.Controllers;
 public sealed class AnnouncementsController(IAnnouncementService announcementService) : ControllerBase
 {
     [HttpGet("{authorityCode}")]
-    public async Task<IActionResult> Get([FromQuery] string authorityCode, CancellationToken cancellationToken)
+    public async Task<IActionResult> Get([FromRoute] string authorityCode, CancellationToken cancellationToken)
     {
         if (string.IsNullOrWhiteSpace(authorityCode))
         {

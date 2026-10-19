@@ -4,11 +4,11 @@ Microservice for announcements and updates displayed on municipal websites.
 
 ## Structure
 
-- `src/MuniAnnouncements.Api` - C# API built on .NET 10.
+- `backend/MuniAnnouncements.Api` - C# API built on .NET 10.
 - `Repositories` - CMS and site-settings interfaces, with an in-memory context and hard-coded repositories for the demo.
 - `Services` - announcement filtering, normalization, truncation and sorting.
 - `Controllers` - HTTP endpoint boundary.
-- `tests/MuniAnnouncements.Api.Tests` - unit and HTTP automation tests for normalization and the API.
+- `backend/MuniAnnouncements.Api.Tests` - unit and HTTP automation tests for normalization and the API.
 - `client` - responsive, RTL-aware and accessible standalone Angular widget.
 
 ## Architecture
@@ -30,8 +30,8 @@ flowchart LR
 From the repository root:
 
 ```powershell
-dotnet test tests\MuniAnnouncements.Api.Tests\MuniAnnouncements.Api.Tests.csproj
-dotnet run --project src\MuniAnnouncements.Api\MuniAnnouncements.Api.csproj --urls http://localhost:5000
+dotnet test backend\MuniAnnouncements.Api.Tests\MuniAnnouncements.Api.Tests.csproj
+dotnet run --project backend\MuniAnnouncements.Api\MuniAnnouncements.Api.csproj --urls http://localhost:5000
 ```
 
 The test suite includes 7 unit tests for normalization logic and 3 HTTP automation tests that run the API in memory and verify existing tenants, data isolation and `404 Not Found` for an unknown authority.

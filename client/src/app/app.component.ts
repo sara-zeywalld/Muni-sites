@@ -1,6 +1,6 @@
 import { NgFor } from '@angular/common';
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
-import { AnnouncementsWidgetComponent } from './announcements-widget.component';
+import { AnnouncementsWidgetComponent } from './announcements/announcements-widget/announcements-widget.component';
 
 @Component({
   selector: 'muni-root',

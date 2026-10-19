@@ -2,8 +2,8 @@ import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { catchError, map, of, startWith, switchMap } from 'rxjs';
-import { AnnouncementResponse } from './announcement.model';
-import { AnnouncementsApiService } from './announcements-api.service';
+import { AnnouncementResponse } from '../announcement.model';
+import { AnnouncementsApiService } from '../announcements-api.service';
 
 type AnnouncementsViewState =
   | { status: 'loading' }
